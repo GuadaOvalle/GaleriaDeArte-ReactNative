@@ -1,38 +1,51 @@
-// src/screens/HomeScreen.js
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-// Importar correctamente las funciones desde src/api/ArtAPI.js
-import { fetchEuropeanaArtworks, fetchClevelandArtworks } from '../api/ArtAPI';
+import React from 'react';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+
+const categories = [
+  { name: 'Impresionismo', query: 'impressionism' },
+  { name: 'Renacimiento', query: 'renaissance' },
+  { name: 'Barroco', query: 'baroque' },
+  { name: 'Arte Moderno', query: 'modern art' },
+  { name: 'Surrealismo', query: 'surrealism' },
+  { name: 'Arte Pop', query: 'pop art' },
+  { name: 'Realismo', query: 'realism' },
+];
+
+const artists = [
+  { name: 'Sandro Botticelli', query: 'Sandro Botticelli' },
+  { name: 'Vincent van Gogh', query: 'Vincent van Gogh' },
+  { name: 'Pablo Picasso', query: 'Pablo Picasso' },
+  { name: 'Claude Monet', query: 'Claude Monet' },
+  { name: 'Leonardo da Vinci', query: 'Leonardo da Vinci' },
+  { name: 'Frida Kahlo', query: 'Frida Kahlo' },
+  { name: 'Rembrandt', query: 'Rembrandt' },
+  { name: 'Jackson Pollock', query: 'Jackson Pollock' },
+  { name: 'Andy Warhol', query: 'Andy Warhol' },
+];
 
 export default function HomeScreen({ navigation }) {
-  const [artPieces, setArtPieces] = useState([]);
-
-  useEffect(() => {
-    const getArtPieces = async () => {
-      const europeana = await fetchEuropeanaArtworks('impressionism');
-      const cleveland = await fetchClevelandArtworks('impressionism');
-      setArtPieces([...europeana, ...cleveland]);
-    };
-    getArtPieces();
-  }, []);
+  const renderCategory = (item, isArtist = false) => (
+    <TouchableOpacity
+      key={item.name}
+      style={styles.categoryItem}
+      onPress={() => navigation.navigate('Category', { category: item.query, isArtist })}
+    >
+      <Text style={styles.categoryText}>{item.name}</Text>
+    </TouchableOpacity>
+  );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Explore Art Galleries</Text>
-      <FlatList
-        data={artPieces}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.item}
-            onPress={() => navigation.navigate('ArtDetails', { artId: item.id })}
-          >
-            <Text style={styles.itemText}>{item.title}</Text>
-            <Text style={styles.itemText}>{item.creator}</Text>
-          </TouchableOpacity>
-        )}
-      />
-    </View>
+    <ScrollView style={styles.container}>
+      <Text style={styles.title}>Explora Categorías de Arte</Text>
+      <View style={styles.categoryContainer}>
+        {categories.map(category => renderCategory(category))}
+      </View>
+
+      <Text style={styles.title}>Artistas Famosos</Text>
+      <View style={styles.categoryContainer}>
+        {artists.map(artist => renderCategory(artist, true))}
+      </View>
+    </ScrollView>
   );
 }
 
@@ -45,13 +58,24 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 10,
   },
-  item: {
+  categoryContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  categoryItem: {
+    width: '48%',
+    backgroundColor: '#f0f0f0',
     padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderRadius: 10,
+    marginBottom: 15,
   },
-  itemText: {
-    fontSize: 18,
+  categoryText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
