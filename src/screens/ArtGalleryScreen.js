@@ -47,6 +47,9 @@ const ArtGalleryScreen = () => {
           {artwork.description && (
             <Text style={styles.info}>Descripción: {artwork.description}</Text>
           )}
+          {artwork.location && (
+            <Text style={styles.info}>Ubicación: {artwork.location}</Text>
+          )}
         </View>
       ))}
     </ScrollView>
@@ -65,29 +68,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   artworkContainer: {
-    marginBottom: 20,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
+    marginBottom: 30,
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
+    marginTop: 10,
   },
   artist: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#666',
+    marginTop: 5,
   },
   info: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#333',
     marginTop: 5,
   },
   image: {
     width: '100%',
-    height: 200,
-    marginBottom: 10,
+    height: 400,
   },
 });
 

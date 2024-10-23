@@ -3,6 +3,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/screens/HomeScreen';
+import CollectionScreen from './src/screens/CollectionScreen';
 import CategoryScreen from './src/screens/CategoryScreen';
 import ArtDetailsScreen from './src/screens/ArtDetailsScreen';
 import ARScreen from './src/screens/ARScreen';
@@ -14,7 +15,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Galería de Arte' }} />
-        <Stack.Screen name="Category" component={CategoryScreen} options={({ route }) => ({ title: route.params.category })} />
+        <Stack.Screen name="Collection" component={CollectionScreen} options={({ route }) => ({ title: route.params?.collection || 'Colección' })} />
+        <Stack.Screen name="Category" component={CategoryScreen} options={({ route }) => ({ title: route.params?.category || 'Categoría' })} />
         <Stack.Screen name="ArtDetails" component={ArtDetailsScreen} options={{ title: 'Detalles de la Obra' }} />
         <Stack.Screen name="ARScreen" component={ARScreen} options={{ title: 'Visualización AR' }} />
       </Stack.Navigator>

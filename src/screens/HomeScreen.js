@@ -1,16 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 
-const categories = [
-  { name: 'Impresionismo', query: 'impressionism' },
-  { name: 'Renacimiento', query: 'renaissance' },
-  { name: 'Barroco', query: 'baroque' },
-  { name: 'Arte Moderno', query: 'modern art' },
-  { name: 'Surrealismo', query: 'surrealism' },
-  { name: 'Arte Pop', query: 'pop art' },
-  { name: 'Realismo', query: 'realism' },
-];
-
 const artists = [
   { name: 'Sandro Botticelli', query: 'Sandro Botticelli' },
   { name: 'Vincent van Gogh', query: 'Vincent van Gogh' },
@@ -20,30 +10,32 @@ const artists = [
   { name: 'Frida Kahlo', query: 'Frida Kahlo' },
   { name: 'Rembrandt', query: 'Rembrandt' },
   { name: 'Jackson Pollock', query: 'Jackson Pollock' },
-  { name: 'Andy Warhol', query: 'Andy Warhol' },
 ];
 
 export default function HomeScreen({ navigation }) {
-  const renderCategory = (item, isArtist = false) => (
+  const renderArtist = (artist) => (
     <TouchableOpacity
-      key={item.name}
+      key={artist.name}
       style={styles.categoryItem}
-      onPress={() => navigation.navigate('Category', { category: item.query, isArtist })}
+      onPress={() => navigation.navigate('Category', { category: artist.query, isArtist: true })}
     >
-      <Text style={styles.categoryText}>{item.name}</Text>
+      <Text style={styles.categoryText}>{artist.name}</Text>
     </TouchableOpacity>
   );
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Explora Categorías de Arte</Text>
-      <View style={styles.categoryContainer}>
-        {categories.map(category => renderCategory(category))}
-      </View>
+      <Text style={styles.title}>Explora Colecciones</Text>
+      <TouchableOpacity
+        style={styles.collectionButton}
+        onPress={() => navigation.navigate('Collection')}
+      >
+        <Text style={styles.collectionButtonText}>Ver Colecciones</Text>
+      </TouchableOpacity>
 
       <Text style={styles.title}>Artistas Famosos</Text>
       <View style={styles.categoryContainer}>
-        {artists.map(artist => renderCategory(artist, true))}
+        {artists.map(renderArtist)}
       </View>
     </ScrollView>
   );
@@ -60,6 +52,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 20,
     marginBottom: 10,
+  },
+  collectionButton: {
+    backgroundColor: '#007AFF',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  collectionButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   categoryContainer: {
     flexDirection: 'row',

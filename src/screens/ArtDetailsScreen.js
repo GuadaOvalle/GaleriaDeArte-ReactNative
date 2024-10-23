@@ -73,7 +73,7 @@ export default function ArtDetailsScreen({ route, navigation }) {
       {artDetails.imageUrl && (
         <Image source={{ uri: artDetails.imageUrl }} style={styles.image} resizeMode="contain" />
       )}
-      <Text style={styles.title}>{artDetails.title}</Text>
+      <Text style={styles.title}>{artDetails.title || 'Título no disponible'}</Text>
       {renderDetail('Artista', artDetails.artist)}
       {renderDetail('Fecha', artDetails.date)}
       {renderDetail('Medio', artDetails.medium)}
@@ -82,6 +82,12 @@ export default function ArtDetailsScreen({ route, navigation }) {
       {renderDetail('Colección', artDetails.collection)}
       {renderDetail('Procedencia', artDetails.provenance)}
       {renderDetail('Descripción', artDetails.description)}
+      {renderDetail('Ubicación', artDetails.location)}
+      {renderDetail('Derechos', artDetails.rights)}
+      {renderDetail('Creador', artDetails.creator)}
+      {renderDetail('Publicador', artDetails.publisher)}
+      {renderDetail('Contribuyentes', artDetails.contributors?.join(', '))}
+      {renderDetail('Identificador', artDetails.identifier)}
 
       {artDetails.audioUrl && (
         <TouchableOpacity style={styles.button} onPress={playSound}>
