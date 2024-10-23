@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login y Registro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/registro.css"> 
+    <script src="../scripts/Login.js" defer></script> 
+</head>
+<body>
+
+    <div class = "caja1">
+
+    <h1>Bienvenido</h1>
+    
+    <div class="caja">
+        <div class="cajaboton">
+            <button id="Login">Login</button>
+            <button id="Registro">Registro</button>
+        </div>
+        <div id="principal">
+            
+        </div>
+    </div>
+    <script>
+        document.getElementById('Login').addEventListener('click', () => {
+            const principalDiv = document.getElementById('principal');
+            principalDiv.innerHTML = `
+                <h2>Login</h2>
+                <input type="email" id="loginEmail" placeholder="Correo Electrónico" />
+                <input type="password" id="loginPassword" placeholder="Contraseña" />
+                <button id="loginButton">Iniciar Sesión</button>
+            `;
+    
+            document.getElementById('loginButton').addEventListener('click', () => {
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                console.log('Iniciando sesión:', email, password);
+            });
+        });
+    
+        document.getElementById('Registro').addEventListener('click', () => {
+            const principalDiv = document.getElementById('principal');
+            principalDiv.innerHTML = `
+                <h2>Registro</h2>
+                <input type="email" id="email" placeholder="Correo Electrónico" />
+                <input type="password" id="password" placeholder="Contraseña" />
+                <button id="registrar">Registrarse</button>
+            `;
+    
+            document.getElementById('registrar').addEventListener('click', () => {
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                console.log('Registrando:', email, password);
+            });
+        });
+    </script>
+
+    </div>
+    
+</body>
+</html>
