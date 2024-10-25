@@ -1,0 +1,129 @@
+import Icon from 'react-native-vector-icons/FontAwesome';  // Asegúrate de tener react-native-vector-icons instalado
+
+//HomeScreen
+const artistFacts = {
+  'Sandro Botticelli': {
+    quote: 'La belleza es el regalo de Dios.',
+    fact: 'Botticelli nunca se casó, y muchos creen que vivió una vida solitaria.',
+    image: require('../../assets/imagenes/nacimiento_de_venus.jpg'),
+  },
+  'Vincent van Gogh': {
+    quote: 'No tengo miedo a la muerte, solo a la vida vacía.',
+    fact: 'Van Gogh solo vendió una pintura en su vida, y lo hizo pocos meses antes de su muerte.',
+    image: require('../../assets/imagenes/noche_estrellada.jpg'),
+  },
+  'Pablo Picasso': {
+    quote: 'El propósito del arte es lavar el polvo de la vida diaria de nuestras almas.',
+    fact: 'Picasso tuvo un período azul debido a la depresión, lo que se reflejó en sus pinturas.',
+    image: require('../../assets/imagenes/guernica.jpg'),
+  },
+  'Claude Monet': {
+    quote: 'Solo soy bueno para pintar y jardín.',
+    fact: 'Monet sufría de cataratas, lo que afectó su forma de ver y pintar la luz.',
+    image: require('../../assets/imagenes/impression_sunrise.jpg'),
+  },
+  'Leonardo da Vinci': {
+    quote: 'El conocimiento nunca agota la mente.',
+    fact: 'Da Vinci tenía una curiosidad inagotable, y sus diarios contienen dibujos anatómicos detallados.',
+    image: require('../../assets/imagenes/mona_lisa.jpg'),
+  },
+  'Frida Kahlo': {
+    quote: 'Pinto flores para que no mueran.',
+    fact: 'Frida Kahlo transformó su sufrimiento físico en una fuente de inspiración artística.',
+    image: require('../../assets/imagenes/dos_fridas.jpg'),
+  },
+  'Rembrandt': {
+    quote: 'Un cuadro es una cosa que requiere tantas traiciones, mesura y audacia como cualquier otra.',
+    fact: 'Rembrandt murió en la pobreza, a pesar de haber sido un pintor famoso en su época.',
+    image: require('../../assets/imagenes/guardia_nocturna.jpg'),
+  },
+  'Jackson Pollock': {
+    quote: 'No pintas lo que ves, pintas lo que sientes.',
+    fact: 'Pollock revolucionó la pintura con su técnica de "drip painting", una forma de arte abstracto.',
+    image: require('../../assets/imagenes/numero_5.jpg'),
+  },
+};
+
+
+//collectionscreen
+
+const images = {
+  'Archeology': require('../../assets/imagenes/archeology.jpg'),
+  'Art': require('../../assets/imagenes/art.jpg'),
+  'Sports': require('../../assets/imagenes/sports.jpg'),
+  'Photography': require('../../assets/imagenes/photography.jpg'),
+  'History of Nature': require('../../assets/imagenes/history_of_nature.jpg'),
+  'Manuscripts': require('../../assets/imagenes/manuscripts.jpg'),
+  'Maps': require('../../assets/imagenes/maps.jpg'),
+  'Fashion': require('../../assets/imagenes/fashion.jpg'),
+  'Music': require('../../assets/imagenes/music.jpg'),
+  'Industrial Heritage': require('../../assets/imagenes/industrial_heritage.jpg'),
+  'World War I': require('../../assets/imagenes/ww1.jpg'),
+  'Memories': require('../../assets/imagenes/memories.jpg'),
+  'Furniture': require('../../assets/imagenes/furniture.jpg'),
+  'Contemporary Academic Music': require('../../assets/imagenes/contemporary_music.jpg'),
+  'Classical Music': require('../../assets/imagenes/classical_music.jpg'),
+  'Argentina': require('../../assets/imagenes/argentina.jpg'),
+  '20th Century': require('../../assets/imagenes/20th_century.jpg'),
+  'Animals': require('../../assets/imagenes/animals.jpg'),
+  'Art Nouveau': require('../../assets/imagenes/art_nouveau.jpg'),
+  'Architecture': require('../../assets/imagenes/architecture.jpg'),
+  'Asian Art & Heritage': require('../../assets/imagenes/asian_art_&_heritage.jpg'),
+  '1st Century': require('../../assets/imagenes/1st_century.jpg'),
+  '2nd Century': require('../../assets/imagenes/2nd_century.jpg'),
+  '3rd Century': require('../../assets/imagenes/3rd_century.jpg'),
+  '4th Century': require('../../assets/imagenes/4th_century.jpg'),
+  '9th Century': require('../../assets/imagenes/9th_century.jpg'),
+  '10th Century': require('../../assets/imagenes/10th_century.jpg'),
+  '11th Century': require('../../assets/imagenes/11th_century.jpg'),
+  '12th Century': require('../../assets/imagenes/12th_century.jpg'),
+  '13th Century': require('../../assets/imagenes/13th_century.jpg'),
+  '14th Century': require('../../assets/imagenes/14th_century.jpg'),
+  '19th Century': require('../../assets/imagenes/19th_century.jpg'),
+  '15th Century': require('../../assets/imagenes/15th_century.jpg'),
+  '16th Century': require('../../assets/imagenes/16th_century.jpg'),
+  '17th Century': require('../../assets/imagenes/17th_century.jpg'),
+  '18th Century': require('../../assets/imagenes/18th_century.jpg'),
+  '21st Century': require('../../assets/imagenes/21st_century.jpg'),
+  'Sunflowers': require('../../assets/imagenes/sunflowers.jpg'),
+  'BUDDHA-BUDDHA': require('../../assets/imagenes/buddha-buddha.jpg'),
+  'Ghosts': require('../../assets/imagenes/ghosts.jpg'),
+  'CHRISTMAS-NATIVITY': require('../../assets/imagenes/christmas-nativity.jpg'),
+  'BUDDHIST THANGKAS': require('../../assets/imagenes/buddhist_thangkas.jpg'),
+};
+
+const collections = [
+  { 
+    name: 'Materias', 
+    description: 'Desde arqueología hasta moda, aquí encontrarás de todo un poco. ¡Despierta tu curiosidad académica y déjate sorprender!',
+    categories: ['Archeology', 'Art', 'Sports', 'Photography', 'History of Nature', 'Manuscripts', 'Maps', 'Fashion', 'Music', 'Industrial Heritage', 'World War I'] 
+  },
+  { 
+    name: 'Temática', 
+    description: 'Viaja a través del tiempo y las emociones, donde cada colección te cuenta una historia distinta. ¡Explora el pasado y el presente!',
+    categories: ['Memories', 'Furniture', 'Contemporary Academic Music', 'Classical Music'] 
+  },
+  { 
+    name: 'Destacados', 
+    description: 'Colecciones que brillan por su importancia cultural. ¡Descubre lo mejor de lo mejor, desde arquitectura hasta arte asiático!',
+    categories: ['Argentina', '20th Century', 'Animals', 'Art Nouveau', 'Architecture', 'Asian Art & Heritage'] 
+  },
+  { 
+    name: 'Siglos', 
+    description: '¡Un recorrido por la historia en modo exprés! Desde el 1er siglo hasta el 21ro, sumérgete en cada era como si estuvieras allí.',
+    categories: ['1st Century', '2nd Century', '3rd Century', '4th Century', '9th Century', '10th Century', '11th Century', '12th Century', '13th Century', '14th Century', '19th Century', '15th Century', '16th Century', '17th Century', '18th Century', '20th Century', '21st Century'] 
+  },
+  { 
+    name: 'Galerías', 
+    description: 'Un popurrí de colecciones eclécticas. Desde girasoles hasta fantasmas, esta sección te llevará a lugares inesperados.',
+    categories: ['Animals', 'Sunflowers', 'BUDDHA-BUDDHA', 'Ghosts', 'CHRISTMAS-NATIVITY', 'BUDDHIST THANGKAS'] 
+  }
+];
+
+Quisiera que cada colección de 'artistas famosos' en HomeScreen tenga un fondo con una obra de cada artista. Escribe el nombre del archivo con el nombre del artista en minúscula y separado por guiones bajos
+
+Ahora quisiera que hagas un tipo de menú de navegación en la parte inferior de la app. Este menú debe llevar a:
+-Pantalla Principal
+-Favoritos
+-Explorar
+Todo esto representado con iconos
