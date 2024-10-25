@@ -44,7 +44,7 @@ export default function ArtDetailsScreen({ route, navigation }) {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#A67A76" />
       </View>
     );
   }
@@ -107,7 +107,7 @@ export default function ArtDetailsScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F2EAE4',  // Fondo beige claro
     padding: 20,
   },
   loadingContainer: {
@@ -119,35 +119,43 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 300,
     marginBottom: 20,
+    borderRadius: 10,  // Bordes redondeados para darle un estilo elegante
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
+    color: '#734440',  // Color marrón oscuro para el título
     marginBottom: 10,
+    textAlign: 'center',
+    fontFamily: 'PlayfairDisplay_700Bold',
   },
   info: {
     fontSize: 16,
-    color: '#333',
+    color: '#BF9D95',  // Color marrón suave para los detalles
     marginBottom: 5,
+    fontFamily: 'serif',  // Mantener la fuente elegante
   },
   label: {
     fontWeight: 'bold',
+    color: '#734440',  // Color oscuro para las etiquetas
+    fontFamily: 'PlayfairDisplay_700Bold',
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#A67A76',  // Color marrón claro para los botones
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 10,
     marginTop: 15,
     alignItems: 'center',
   },
   buttonText: {
-    color: '#fff',
+    color: '#F2EAE4',
     fontSize: 16,
     fontWeight: 'bold',
+    fontFamily: 'PlayfairDisplay_700Bold',
   },
   errorText: {
     fontSize: 18,
-    color: 'red',
+    color: '#BF9D95',
     textAlign: 'center',
   },
 });

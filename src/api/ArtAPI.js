@@ -84,8 +84,6 @@ export const fetchArtworksByCategory = async (category, page = 1, limit = 10) =>
   }
 };
 
-// ... rest of the file remains the same
-
 export const fetchArtworksByArtist = async (artist) => {
   try {
     const europeanaResponse = await axios.get(EUROPEANA_BASE_URL, {
