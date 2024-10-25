@@ -1,42 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import * as Font from 'expo-font';  // Importa expo-font para cargar las fuentes
-import { PlayfairDisplay_400Regular, PlayfairDisplay_700Bold } from '@expo-google-fonts/playfair-display';  // Variantes de fuente
-import * as SplashScreen from 'expo-splash-screen';  // Importa SplashScreen de expo
+import * as Font from 'expo-font';  
+import { PlayfairDisplay_400Regular, PlayfairDisplay_700Bold } from '@expo-google-fonts/playfair-display';  
+import * as SplashScreen from 'expo-splash-screen';  
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Image } from 'react-native';  // Para mostrar el logo
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';  
+import { Image, Text } from 'react-native';  
 import HomeScreen from './src/screens/HomeScreen';
 import CollectionScreen from './src/screens/CollectionScreen';
 import CategoryScreen from './src/screens/CategoryScreen';
 import ArtDetailsScreen from './src/screens/ArtDetailsScreen';
-import ARScreen from './src/screens/ARScreen';
-import FavoritesScreen from './src/screens/FavoritesScreen';  // Importa la nueva pantalla de favoritos
-
+import FavoritesScreen from './src/screens/FavoritesScreen';
+import Icon from 'react-native-vector-icons/FontAwesome'; 
 
 // Ruta del logo
-const logo = require('./assets/imagenes/logo.jpg');  // Asegúrate de tener el logo en esta ruta
+const logo = require('./assets/imagenes/logo.jpg');  
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator(); 
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  
+  // Estado global para manejar los favoritos
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     const loadFontsAndHideSplashScreen = async () => {
       try {
-        // Evitar que el splash screen se oculte automáticamente
         await SplashScreen.preventAutoHideAsync();
-
-        // Cargar las fuentes
         await Font.loadAsync({
           PlayfairDisplay_400Regular,
           PlayfairDisplay_700Bold,
         });
-
-        // Indicar que las fuentes ya están cargadas
         setFontsLoaded(true);
-
-        // Ocultar el splash screen
         await SplashScreen.hideAsync();
       } catch (e) {
         console.warn(e);
@@ -47,118 +44,128 @@ export default function App() {
   }, []);
 
   if (!fontsLoaded) {
-    // Si las fuentes no están cargadas, mantener el splash screen visible
     return null;
   }
 
+  // Función para añadir o quitar de favoritos
+  const toggleFavorite = (artwork) => {
+    if (favorites.some(fav => fav.id === artwork.id)) {
+      setFavorites(favorites.filter(fav => fav.id !== artwork.id));
+    } else {
+      setFavorites([...favorites, artwork]);
+    }
+  };
+
+  // Pila de navegación para el Home y otras pantallas
+  const HomeStack = () => (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="HomeScreen"  
+        component={HomeScreen} 
+        options={{
+          headerTitle: () => (
+            <Image
+              source={logo} 
+              style={{ width: 100, height: 40 }}  
+              resizeMode="contain"
+            />
+          ),
+          headerStyle: { backgroundColor: '#f2efe8' },
+        }} 
+      />
+      <Stack.Screen 
+        name="Collection" 
+        component={CollectionScreen}
+        options={{
+          headerTitle: () => (
+            <Image
+              source={logo} 
+              style={{ width: 100, height: 40 }}
+              resizeMode="contain"
+            />
+          ),
+          headerStyle: { backgroundColor: '#f2efe8' },
+        }} 
+      />
+      <Stack.Screen 
+        name="Category" 
+        options={{
+          headerTitle: () => (
+            <Image
+              source={logo} 
+              style={{ width: 100, height: 40 }} 
+              resizeMode="contain"
+            />
+          ),
+          headerStyle: { backgroundColor: '#f2efe8' },
+        }}
+      >
+        {props => <CategoryScreen {...props} toggleFavorite={toggleFavorite} favorites={favorites} />}
+      </Stack.Screen>
+      <Stack.Screen 
+        name="ArtDetails" 
+        component={ArtDetailsScreen}
+        options={{
+          headerTitle: () => (
+            <Image
+              source={logo} 
+              style={{ width: 100, height: 40 }} 
+              resizeMode="contain"
+            />
+          ),
+          headerStyle: { backgroundColor: '#f2efe8' },
+        }} 
+      />
+    </Stack.Navigator>
+  );
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        {/* Pantalla Home */}
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            headerTitle: () => (
-              <Image
-                source={logo}  // Asigna el logo aquí
-                style={{ width: 100, height: 40 }}  // Ajusta el tamaño del logo
-                resizeMode="contain"
-              />
-            ),
-            headerStyle: {
-              backgroundColor: '#f2efe8',  // Fondo beige
-            },
-          }}
-        />
-        {/* Pantalla Colecciones */}
-        <Stack.Screen
-          name="Collection"
-          component={CollectionScreen}
-          options={({ route }) => ({
-            headerTitle: () => (
-              <Image
-                source={logo}  // Asigna el logo también aquí
-                style={{ width: 100, height: 40 }}
-                resizeMode="contain"
-              />
-            ),
-            headerStyle: {
-              backgroundColor: '#f2efe8',  // Fondo beige
-            },
-          })}
-        />
-        {/* Pantalla Categorías */}
-        <Stack.Screen
-          name="Category"
-          component={CategoryScreen}
-          options={({ route }) => ({
-            headerTitle: () => (
-              <Image
-                source={logo}
-                style={{ width: 100, height: 40 }}
-                resizeMode="contain"
-              />
-            ),
-            headerStyle: {
-              backgroundColor: '#f2efe8',
-            },
-          })}
-        />
-        {/* Pantalla Detalles de Arte */}
-        <Stack.Screen
-          name="ArtDetails"
-          component={ArtDetailsScreen}
-          options={{
-            headerTitle: () => (
-<Image
-  source={logo}
-  style={{ width: 150, height: undefined }}  // Deja que la altura sea ajustada automáticamente
-  resizeMode="contain"
-/>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color, size }) => {
+            let iconName;
 
+            if (route.name === 'HomeTab') {
+              iconName = 'home';  // Icono de inicio
+            } else if (route.name === 'Favorites') {
+              iconName = 'heart';  // Icono de favoritos
+            }
 
-            ),
-            headerStyle: {
-              backgroundColor: '#f2efe8',
-            },
-          }}
+            return <Icon name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: '#F2EAE4',  // Beige claro para el icono y texto activo
+          tabBarInactiveTintColor: '#D9B9AD', // Beige oscuro para el icono y texto inactivo
+          tabBarStyle: {
+            backgroundColor: '#734440',  // Fondo marrón oscuro para la barra inferior
+          },
+          headerStyle: {
+            backgroundColor: '#734440',  // Marrón oscuro para el header superior
+          },
+          headerTintColor: '#F2EAE4',  // Beige claro para el texto en el header
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        })}
+      >
+        <Tab.Screen 
+          name="HomeTab"  
+          component={HomeStack} 
+          options={{ 
+            tabBarLabel: 'Inicio',
+            headerTitle: 'Inicio',  // Cambiar el título que aparece en el header
+          }} 
         />
-        {/* Pantalla Realidad Aumentada */}
-        <Stack.Screen
-          name="ARScreen"
-          component={ARScreen}
-          options={{
-            headerTitle: () => (
-              <Image
-                source={logo}
-                style={{ width: 100, height: 40 }}
-                resizeMode="contain"
-              />
-            ),
-            headerStyle: {
-              backgroundColor: '#f2efe8',
-            },
-          }}
-        />
-        {/* Pantalla de Favoritos */}
-        <Stack.Screen
-          name="Favorites"
-          component={FavoritesScreen}  // Añadimos la pantalla de favoritos
-          options={{
-            headerTitle: () => (
-              <Image
-                source={logo}
-                style={{ width: 100, height: 40 }}
-                resizeMode="contain"
-              />
-            ),
-            headerStyle: {
-              backgroundColor: '#f2efe8',
-            },
-          }}
-        />
-      </Stack.Navigator>
+        <Tab.Screen 
+          name="Favorites" 
+          options={{ 
+            tabBarLabel: 'Favoritos',
+            headerTitle: 'Favoritos',  // Cambiar el título que aparece en el header
+          }} 
+        >
+          {props => <FavoritesScreen {...props} favorites={favorites} toggleFavorite={toggleFavorite} />}
+        </Tab.Screen>
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }

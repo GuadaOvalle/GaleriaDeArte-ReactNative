@@ -3,7 +3,6 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, ActivityIndi
 import { fetchArtworksByCategory } from '../api/ArtAPI';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-
 const artistFacts = {
   'Sandro Botticelli': {
     quote: 'La belleza es el regalo de Dios.',
@@ -47,7 +46,51 @@ const artistFacts = {
   },
 };
 
-// Mapeo de imágenes de las pinturas más famosas de los artistas
+const translations = {
+  'Archeology': 'Arqueología',
+  'Art': 'Arte',
+  'Sports': 'Deportes',
+  'Photography': 'Fotografía',
+  'History of Nature': 'Historia de la Naturaleza',
+  'Manuscripts': 'Manuscritos',
+  'Maps': 'Mapas',
+  'Fashion': 'Moda',
+  'Music': 'Música',
+  'Industrial Heritage': 'Patrimonio Industrial',
+  'World War I': 'Primera Guerra Mundial',
+  'Memories': 'Memorias',
+  'Furniture': 'Mobiliario',
+  'Contemporary Academic Music': 'Música Académica Contemporánea',
+  'Classical Music': 'Música Clásica',
+  'Argentina': 'Argentina',
+  '20th Century': 'Siglo XX',
+  'Animals': 'Animales',
+  'Art Nouveau': 'Art Nouveau',
+  'Architecture': 'Arquitectura',
+  'Asian Art & Heritage': 'Arte y Patrimonio Asiático',
+  '1st Century': 'Siglo I',
+  '2nd Century': 'Siglo II',
+  '3rd Century': 'Siglo III',
+  '4th Century': 'Siglo IV',
+  '9th Century': 'Siglo IX',
+  '10th Century': 'Siglo X',
+  '11th Century': 'Siglo XI',
+  '12th Century': 'Siglo XII',
+  '13th Century': 'Siglo XIII',
+  '14th Century': 'Siglo XIV',
+  '19th Century': 'Siglo XIX',
+  '15th Century': 'Siglo XV',
+  '16th Century': 'Siglo XVI',
+  '17th Century': 'Siglo XVII',
+  '18th Century': 'Siglo XVIII',
+  '21st Century': 'Siglo XXI',
+  'Sunflowers': 'Girasoles',
+  'BUDDHA-BUDDHA': 'Buda-Buda',
+  'Ghosts': 'Fantasmas',
+  'CHRISTMAS-NATIVITY': 'Navidad y Natividad',
+  'BUDDHIST THANGKAS': 'Thangkas Budistas',
+};
+
 const artistImages = {
   'Sandro Botticelli': require('../../assets/imagenes/nacimiento_de_venus.jpg'),
   'Vincent van Gogh': require('../../assets/imagenes/noche_estrellada.jpg'),
@@ -59,14 +102,13 @@ const artistImages = {
   'Jackson Pollock': require('../../assets/imagenes/numero_5.jpg'),
 };
 
-export default function CategoryScreen({ route, navigation }) {
+export default function CategoryScreen({ route, navigation, toggleFavorite, favorites }) {
   const { category, isArtist } = route.params || {};
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState(null);
-  const [favorites, setFavorites] = useState([]);
 
   const fetchArtworks = async (pageNumber) => {
     if (loading || !hasMore) return;
@@ -98,30 +140,8 @@ export default function CategoryScreen({ route, navigation }) {
     }
   };
 
-  const toggleFavorite = (artwork) => {
-    if (favorites.some(fav => fav.id === artwork.id)) {
-      setFavorites(favorites.filter(fav => fav.id !== artwork.id));
-    } else {
-      setFavorites([...favorites, artwork]);
-    }
-  };
-
-  // Renderiza la frase y el dato curioso al principio de la pantalla
-  const renderArtistFact = (artist) => {
-    const fact = artistFacts[artist];
-    if (!fact) return null;
-
-    return (
-      <View style={styles.factContainer}>
-        <Text style={styles.quoteText}>
-          "{fact.quote}" - <Text style={styles.keywordText}>{artist}</Text>
-        </Text>
-        <Text style={styles.creativeText}>
-          <Text style={styles.factLabel}>Dato curioso:</Text> {fact.fact}
-        </Text>
-      </View>
-    );
-  };
+  // Traducir el título de la categoría si hay una traducción disponible
+  const translatedTitle = translations[category] || category;
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -144,9 +164,9 @@ export default function CategoryScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Nombre del artista (fijo en la parte superior) */}
+      {/* Título traducido de la categoría (fijo en la parte superior) */}
       <View style={styles.fixedTitleContainer}>
-        <Text style={styles.fixedTitle}>{category}</Text>
+        <Text style={styles.fixedTitle}>{translatedTitle}</Text>
       </View>
 
       {/* Todo el contenido scrolleable */}
@@ -154,14 +174,13 @@ export default function CategoryScreen({ route, navigation }) {
         {/* Renderiza la frase y dato curioso si es un artista */}
         {isArtist && renderArtistFact(category)}
 
-        {/* Muestra la imagen de la pintura más famosa si es un artista */}
         {isArtist && artistImages[category] && (
-          <Image 
-            source={artistImages[category]} 
-            style={styles.featuredImage} 
-            resizeMode="contain" 
-          />
-        )}
+        <Image 
+          source={artistImages[category]} 
+          style={styles.featuredImage} 
+          resizeMode="contain" 
+        />
+      )}
 
         <FlatList
           data={artworks}
@@ -177,6 +196,7 @@ export default function CategoryScreen({ route, navigation }) {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

@@ -54,6 +54,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.categoryContainer}>
         {artists.map(renderArtist)}
       </View>
+      
     </ScrollView>
   );
 }
